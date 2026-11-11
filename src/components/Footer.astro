@@ -1,0 +1,21 @@
+---
+import { site } from '../data/site';
+---
+
+<footer class="border-t border-white/10 bg-footer text-white">
+  <div class="mx-auto max-w-7xl px-4 py-8 pb-[calc(7rem+env(safe-area-inset-bottom))] sm:px-6 md:py-10 lg:px-8">
+    <p class="text-center text-[15px] leading-[1.6] text-white/80">
+      <span class="font-medium text-white">{site.name}</span>
+      <span class="mx-2 inline-block h-px w-4 bg-gold align-middle" aria-hidden="true"></span>
+      Allama Iqbal Town, Lahore
+      <span class="mx-2 inline-block h-px w-4 bg-gold align-middle" aria-hidden="true"></span>
+      <a
+        href={site.phoneHref}
+        class="inline-flex min-h-11 items-center rounded-sm align-middle font-medium text-white underline decoration-gold/60 underline-offset-4 hover:decoration-gold"
+        aria-label={`Call Lahore Boutique at ${site.phoneDisplay}`}
+      >
+        {site.phoneDisplay}
+      </a>
+    </p>
+  </div>
+</footer>

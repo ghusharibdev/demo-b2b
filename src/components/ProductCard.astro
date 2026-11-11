@@ -1,0 +1,149 @@
+---
+import type { Product } from '../data/products';
+import { formatPrice, productOrderUrl } from '../data/products';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+
+interface Props {
+  product: Product;
+  index: number;
+  revealDelay: number;
+}
+
+const { product, index, revealDelay } = Astro.props;
+const orderUrl = productOrderUrl(product);
+---
+
+<article
+  id={`product-${product.slug}`}
+  class="product-card flex h-full scroll-mt-32 flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card md:scroll-mt-24"
+  data-product-card
+  data-index={index}
+  data-name={product.name}
+  data-category={product.category}
+  data-brand={product.brand}
+  data-fabric={product.fabric}
+  data-price={product.price}
+  data-is-new={product.isNew ? 'true' : 'false'}
+  data-reveal
+  style={`--reveal-delay: ${revealDelay}ms;`}
+>
+  <div class="relative aspect-[4/5] overflow-hidden bg-[#F0E2D6]">
+    <div
+      class="absolute inset-0 flex flex-col items-center justify-center gap-2 px-7 text-center"
+      aria-hidden="true"
+    >
+      <span class="text-[11px] font-medium uppercase tracking-[0.14em] text-body">
+        Lahore Boutique
+      </span>
+      <span class="line-clamp-3 max-w-xs text-lg leading-snug text-ink/60">
+        {product.name}
+      </span>
+      <span class="mt-1 text-[11px] text-body">
+        Photo coming soon
+      </span>
+    </div>
+    <img
+      src={product.image}
+      alt={product.alt}
+      width="1080"
+      height="1350"
+      loading="lazy"
+      decoding="async"
+      class="product-image absolute inset-0 h-full w-full object-cover"
+      data-fallback-image
+      data-product-image
+    />
+    <button
+      type="button"
+      class="lightbox-trigger absolute inset-0 z-[1] cursor-zoom-in bg-transparent p-0"
+      data-lightbox-open
+      aria-label={`View larger image of ${product.name}`}
+      aria-haspopup="dialog"
+    ></button>
+
+    <div class="absolute left-3 top-3 z-10 flex flex-col items-start gap-1.5">
+      {
+        product.inStock && (
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-medium text-ink">
+            <span class="h-1.5 w-1.5 rounded-full bg-whatsapp" aria-hidden="true" />
+            In Stock
+          </span>
+        )
+      }
+      {
+        product.isNew && (
+          <span class="rounded-full border border-gold/60 bg-white/95 px-3 py-1 text-[11px] font-semibold text-ink">
+            New
+          </span>
+        )
+      }
+    </div>
+    <span
+      class="absolute right-3 top-3 z-10 rounded-full bg-neutral-200/95 px-3 py-1 text-[11px] font-medium text-body"
+    >
+      {product.category}
+    </span>
+  </div>
+
+  <div class="flex flex-1 flex-col p-5 sm:p-6">
+    <h3
+      class="line-clamp-2 text-[16px] font-semibold leading-[1.4] tracking-[-0.01em] text-ink"
+      data-product-name
+    >
+      {product.name}
+    </h3>
+
+    <p
+      class="mt-2 line-clamp-2 text-[15px] leading-[1.6] tracking-[-0.01em] text-body"
+      data-product-spec
+    >
+      {product.spec}
+    </p>
+
+    <div class="mt-auto pt-5">
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex flex-wrap items-baseline gap-x-2">
+          <span
+            class="text-[18px] font-bold leading-[1.4] text-primary underline decoration-gold decoration-1 underline-offset-4"
+            data-product-price
+          >
+            Rs {formatPrice(product.price)}
+          </span>
+          <span class="text-[11px] font-medium text-muted">
+            Wholesale
+          </span>
+        </div>
+
+        <div class="relative shrink-0">
+          <button
+            type="button"
+            class="collection-share h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-body transition-colors hover:border-primary hover:text-primary"
+            data-share-button
+            data-share-slug={product.slug}
+            aria-label={`Copy link for ${product.name}`}
+          >
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="15" cy="4.5" r="2.2" />
+              <circle cx="5" cy="10" r="2.2" />
+              <circle cx="15" cy="15.5" r="2.2" />
+              <path d="m7 9 6-3.3M7 11l6 3.3" stroke-linecap="round" />
+            </svg>
+          </button>
+          <span class="share-status" data-share-status role="status"></span>
+        </div>
+      </div>
+
+      <a
+        href={orderUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="wa-button btn btn-accent mt-4 w-full gap-2 px-4 text-[13px]"
+        data-product-order
+        aria-label={`Order ${product.name} on WhatsApp`}
+      >
+        <WhatsAppIcon class="h-4 w-4" />
+        Order on WhatsApp
+      </a>
+    </div>
+  </div>
+</article>

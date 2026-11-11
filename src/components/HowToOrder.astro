@@ -1,0 +1,44 @@
+---
+const steps = [
+  {
+    title: 'Select Product',
+    line: 'Choose your piece from the collection.',
+  },
+  {
+    title: 'Click WhatsApp',
+    line: 'Send your order in one ready-made message.',
+  },
+  {
+    title: 'Confirm City + Address',
+    line: 'Share your city and complete delivery address.',
+  },
+] as const;
+---
+
+<section id="how-to-order" class="scroll-mt-32 border-y border-line/80 bg-warm md:scroll-mt-24">
+  <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+    <div class="max-w-2xl">
+      <p class="eyebrow">Simple &amp; direct</p>
+      <h2 class="section-title mt-3" data-reveal>How To Order</h2>
+      <p class="mt-4 text-[15px] leading-[1.6] tracking-[-0.01em] text-body">
+        Order directly on WhatsApp. We will confirm availability and delivery details.
+      </p>
+    </div>
+
+    <ol class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
+      {
+        steps.map((step, index) => (
+          <li class="rounded-2xl border border-line bg-white p-6 shadow-card">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-[15px] font-semibold text-white">
+              {index + 1}
+            </span>
+            <h3 class="mt-4 text-[16px] font-semibold leading-[1.4] tracking-[-0.01em] text-ink">
+              {step.title}
+            </h3>
+            <p class="mt-1.5 text-[15px] leading-[1.6] tracking-[-0.01em] text-body">{step.line}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

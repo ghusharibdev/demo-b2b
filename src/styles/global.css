@@ -1,0 +1,395 @@
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/playfair-display/wght.css';
+@import 'tailwindcss';
+@config "../../tailwind.config.mjs";
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --theme-cream: #fff8f2;
+    --theme-surface: #ffffff;
+    --theme-primary: #7a1e2e;
+    --theme-primary-hover: #5e1623;
+    --theme-gold: #c9a24b;
+    --theme-ink: #1c1a1a;
+    --theme-body: #55504d;
+    --theme-muted: #8a8580;
+    --theme-line: #ede0d4;
+    --theme-footer: #2b1a1a;
+    --theme-whatsapp: #25d366;
+  }
+
+  html {
+    @apply bg-cream text-ink;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream font-sans text-body antialiased;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-sans;
+  }
+
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--theme-primary);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--theme-primary);
+    color: var(--theme-cream);
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-12 items-center justify-center gap-2.5 rounded-xl px-6 text-sm font-medium;
+  }
+
+  .btn-dark {
+    @apply bg-primary text-white;
+  }
+
+  .btn-dark:hover {
+    background-color: var(--theme-primary-hover);
+  }
+
+  .btn-accent {
+    @apply bg-primary text-white;
+  }
+
+  .btn-accent:hover {
+    background-color: var(--theme-primary-hover);
+  }
+
+  .btn-outline {
+    @apply border border-primary bg-white text-primary;
+  }
+
+  .btn-outline:hover {
+    @apply border-primary-hover text-primary-hover;
+  }
+
+  .eyebrow {
+    @apply text-[11px] font-medium uppercase tracking-[0.14em] text-primary;
+  }
+
+  .section-title {
+    @apply font-serif text-[28px] font-medium leading-[1.2] tracking-[-0.02em] text-ink lg:text-[36px];
+  }
+
+  .filter-button {
+    @apply inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-white px-4 text-xs font-medium text-body;
+  }
+
+  .filter-button[aria-pressed='true'] {
+    @apply border-primary bg-primary text-white;
+  }
+}
+
+/* The filter row only appears when JavaScript is available. */
+.collection-filters {
+  display: none;
+}
+
+/* One scrollable row with snap scrolling; the scrollbar stays hidden. */
+.js .collection-filters {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.js .collection-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.js .collection-filters .filter-button {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+/* New collection controls only appear when JavaScript can power them. */
+.collection-tools,
+.collection-share,
+.lightbox-trigger {
+  display: none;
+}
+
+.js .collection-tools {
+  display: block;
+}
+
+.js .collection-share {
+  display: inline-flex;
+}
+
+.js .lightbox-trigger {
+  display: block;
+}
+
+/* Small "Link copied" confirmation above the share button. */
+.share-status {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 6px);
+  z-index: 20;
+  border: 1px solid var(--theme-line);
+  border-radius: 9999px;
+  background: var(--theme-surface);
+  padding: 4px 10px;
+  color: var(--theme-ink);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  box-shadow: 0 18px 45px -30px rgba(43, 26, 26, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease-out;
+}
+
+.share-status.is-visible {
+  opacity: 1;
+}
+
+/* Product image lightbox. */
+.lightbox {
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+}
+
+.lightbox::backdrop {
+  background: rgba(43, 26, 26, 0.72);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+/* Hero entrance — CSS only, staggered through --hero-delay. */
+.js .hero-enter {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: hero-rise 300ms ease-out var(--hero-delay, 0ms) forwards;
+}
+
+.js .hero-media-enter {
+  opacity: 0;
+  transform: scale(1.02);
+  animation: hero-image-in 300ms ease-out 100ms forwards;
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-image-in {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Scroll reveal — armed only after JavaScript confirms motion is welcome. */
+.motion-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 300ms ease-out,
+    transform 300ms ease-out;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.motion-ready [data-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animate cards out and in while filtering. */
+.motion-ready [data-reveal].is-filter-out {
+  opacity: 0;
+  transform: translateY(8px);
+  transition-duration: 150ms;
+  transition-delay: 0ms;
+}
+
+.motion-ready [data-reveal].is-filter-in {
+  animation: filter-card-in 200ms ease-out;
+}
+
+@keyframes filter-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Active filter state eases between colours. */
+.js .filter-button {
+  transition:
+    background-color 200ms ease-out,
+    border-color 200ms ease-out,
+    color 200ms ease-out;
+}
+
+.js .filter-button:not([aria-pressed='true']):hover {
+  border-color: var(--theme-primary);
+  background-color: var(--theme-cream);
+}
+
+/* Quiet desktop-only image zoom. */
+.js .product-image {
+  transition: transform 300ms ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .js .product-card:hover .product-image {
+    transform: scale(1.05);
+  }
+}
+
+/* WhatsApp actions. */
+.js .wa-button {
+  transition:
+    transform 200ms ease-out,
+    background-color 200ms ease-out,
+    border-color 200ms ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .js .wa-button:hover {
+    transform: scale(1.02);
+  }
+}
+
+.js .wa-button:active {
+  transform: scale(0.98);
+}
+
+/* Sticky header state. */
+.js .site-header {
+  transition:
+    background-color 200ms ease-out,
+    box-shadow 200ms ease-out,
+    backdrop-filter 200ms ease-out;
+}
+
+.js .site-header.is-scrolled {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 32px -28px rgba(43, 26, 26, 0.32);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+/* A light pulse that lives for only 300ms of every three-second cycle. */
+.js .wa-float::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  border: 1px solid rgba(37, 211, 102, 0.45);
+  border-radius: 9999px;
+  opacity: 0;
+  pointer-events: none;
+  animation: wa-pulse 3s ease-out infinite;
+}
+
+.js .wa-float:hover::after,
+.js .wa-float:focus-visible::after {
+  animation: none;
+  opacity: 0;
+}
+
+@keyframes wa-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  2% {
+    opacity: 0.4;
+  }
+
+  10% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-delay: 0ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .js .hero-enter,
+  .js .hero-media-enter {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .motion-ready [data-reveal],
+  .motion-ready [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .js .wa-float::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  .js .wa-button:hover,
+  .js .wa-button:active,
+  .js .product-card:hover .product-image {
+    transform: none;
+  }
+}

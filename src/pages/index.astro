@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Collection from '../components/Collection.astro';
+import HowToOrder from '../components/HowToOrder.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import FloatingWhatsApp from '../components/FloatingWhatsApp.astro';
+---
+
+<Layout>
+  <Header />
+
+  <main id="main-content">
+    <Hero />
+    <Collection />
+    <HowToOrder />
+    <About />
+    <Contact />
+  </main>
+
+  <Footer />
+  <FloatingWhatsApp />
+
+  <script>
+    import '../scripts/site';
+  </script>
+</Layout>

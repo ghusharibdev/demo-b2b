@@ -1,0 +1,101 @@
+---
+import { site, whatsappUrl } from '../data/site';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+
+const orderUrl = whatsappUrl();
+---
+
+<section class="relative overflow-hidden">
+  <div
+    class="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.04fr_0.96fr] lg:items-center lg:gap-x-16 lg:px-8 lg:py-16"
+  >
+    <div class="flex flex-col justify-center max-lg:contents">
+      <div class="max-lg:order-1">
+        <p class="eyebrow">Wholesale collection • Lahore</p>
+
+        <h1
+          class="hero-enter mt-4 max-w-2xl font-serif text-[32px] font-medium leading-[1.15] tracking-[-0.02em] text-ink lg:text-[44px]"
+          style="--hero-delay: 0ms;"
+        >
+          Latest Collection <span>Available</span>
+        </h1>
+
+        <p
+          class="hero-enter mt-4 max-w-xl text-[15px] leading-[1.6] tracking-[-0.01em] text-body"
+          style="--hero-delay: 100ms;"
+        >
+          Wholesale Suits &amp; Shawls - Lahore &amp; Nationwide Delivery
+        </p>
+      </div>
+
+      <div
+        class="hero-enter flex flex-col gap-3 max-lg:order-3 lg:mt-8 lg:flex-row lg:items-center"
+        style="--hero-delay: 200ms;"
+      >
+        <a href="#collection" class="btn btn-outline w-full lg:w-auto">
+          View Collection
+          <svg
+            class="h-4 w-4"
+            viewBox="0 0 20 20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            aria-hidden="true"
+          >
+            <path d="M4 10h12M11.5 5.5 16 10l-4.5 4.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+        <a
+          href={orderUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="wa-button btn btn-accent w-full lg:w-auto"
+        >
+          <WhatsAppIcon class="h-[18px] w-[18px]" />
+          Order on WhatsApp
+        </a>
+      </div>
+
+      <p class="text-[13px] leading-[1.6] text-muted max-lg:order-4 lg:mt-6">
+        Lahore &amp; Nationwide Delivery • Wholesale Prices • Reply in 10-15 min
+      </p>
+    </div>
+
+    <div class="relative order-2 mx-auto w-full max-w-[430px] lg:col-start-2 lg:row-start-1 lg:ml-auto lg:mr-0">
+      <div
+        class="pointer-events-none absolute -inset-2.5 rounded-2xl border border-gold/55 sm:-inset-3"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="hero-media-enter relative aspect-[4/5] overflow-hidden rounded-2xl border border-line bg-warm"
+      >
+        <div
+          class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-8 text-center"
+          aria-hidden="true"
+        >
+          <span class="text-[11px] font-medium uppercase tracking-[0.14em] text-body">
+            Lahore Boutique
+          </span>
+          <span class="text-2xl text-ink/60">Hero Image</span>
+        </div>
+        <img
+          src="/images/hero.jpg"
+          alt="DHANAK Printed 3pc beige maroon hearts model"
+          width="1080"
+          height="1350"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="absolute inset-0 h-full w-full object-cover"
+          data-fallback-image
+        />
+        <span
+          class="absolute bottom-4 left-4 rounded-full border border-gold/60 bg-white/90 px-3 py-1.5 text-[11px] font-medium text-ink"
+        >
+          {site.delivery}
+        </span>
+      </div>
+    </div>
+  </div>
+</section>

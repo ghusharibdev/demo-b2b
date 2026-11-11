@@ -1,0 +1,119 @@
+---
+import { site, whatsappUrl } from '../data/site';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+
+const orderUrl = whatsappUrl();
+---
+
+<section id="contact" class="scroll-mt-32 md:scroll-mt-24">
+  <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+    <div class="grid items-start gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+      <div>
+        <p class="eyebrow">Get in touch</p>
+        <h2 class="section-title mt-3" data-reveal>Contact</h2>
+        <p class="mt-4 max-w-md text-[15px] leading-[1.6] tracking-[-0.01em] text-body">
+          Wholesale orders, stock enquiries, and delivery across Pakistan. Message us on WhatsApp for a quick reply.
+        </p>
+        <a
+          href={orderUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="wa-button btn btn-accent mt-7 w-full gap-2.5 px-7 sm:w-auto"
+        >
+          <WhatsAppIcon class="h-5 w-5" />
+          Order on WhatsApp
+        </a>
+        <p class="mt-4 text-[13px] leading-[1.6] text-body">Lahore &amp; Nationwide Delivery</p>
+      </div>
+
+      <div class="overflow-hidden rounded-2xl border border-line bg-white shadow-card">
+        <div class="divide-y divide-line">
+          <div class="flex items-start gap-4 p-5 sm:p-6">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line bg-cream text-primary">
+              <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" stroke-linejoin="round" />
+                <circle cx="12" cy="10" r="2.6" />
+              </svg>
+            </span>
+            <div class="min-w-0">
+              <p class="text-[11px] font-medium uppercase tracking-[0.14em] text-body">Address</p>
+              <p class="mt-1.5 text-[15px] leading-[1.6] tracking-[-0.01em] text-body">{site.address}</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 p-5 sm:p-6">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line bg-cream text-primary">
+              <WhatsAppIcon class="h-[18px] w-[18px]" />
+            </span>
+            <div class="min-w-0">
+              <p class="text-[11px] font-medium uppercase tracking-[0.14em] text-body">WhatsApp</p>
+              <div class="mt-1 flex flex-wrap items-center gap-x-2">
+                <a
+                  href={whatsappUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex min-h-11 items-center text-[15px] font-medium text-ink underline-offset-4 hover:text-primary hover:underline"
+                >
+                  {site.phoneDisplay}
+                </a>
+                <a
+                  href={site.phoneHref}
+                  class="inline-flex min-h-11 items-center text-[13px] text-body underline-offset-4 hover:text-primary hover:underline"
+                >
+                  Call instead
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 p-5 sm:p-6">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line bg-cream text-primary">
+              <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                <rect x="3.5" y="5.5" width="17" height="13" rx="2" />
+                <path d="m4.5 7 7.5 5.5L19.5 7" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <div class="min-w-0">
+              <p class="text-[11px] font-medium uppercase tracking-[0.14em] text-body">Email</p>
+              <p class="mt-1">
+                <a
+                  href={site.emailHref}
+                  class="inline-flex min-h-11 items-center break-all text-[15px] font-medium text-ink underline-offset-4 hover:text-primary hover:underline"
+                >
+                  {site.email}
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 p-5 sm:p-6">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line bg-cream text-primary">
+              <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                <circle cx="12" cy="12" r="8.5" />
+                <path d="M12 7.5V12l3 1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <div>
+              <p class="text-[11px] font-medium uppercase tracking-[0.14em] text-body">Hours</p>
+              <p class="mt-1.5 text-[15px] leading-[1.6] tracking-[-0.01em] text-body">{site.hours}</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 p-5 sm:p-6">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line bg-cream text-primary">
+              <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                <path d="M3.5 7.5h9v9h-9zM12.5 10.5h4.2l3.3 3.2v2.8h-7.5" stroke-linejoin="round" />
+                <circle cx="7" cy="18" r="1.7" />
+                <circle cx="17" cy="18" r="1.7" />
+              </svg>
+            </span>
+            <div>
+              <p class="text-[11px] font-medium uppercase tracking-[0.14em] text-body">Delivery</p>
+              <p class="mt-1.5 text-[15px] leading-[1.6] tracking-[-0.01em] text-body">{site.delivery}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

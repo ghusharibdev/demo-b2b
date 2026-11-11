@@ -1,0 +1,61 @@
+---
+import { site, whatsappUrl } from '../data/site';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+
+const orderUrl = whatsappUrl();
+---
+
+<header class="site-header sticky top-0 z-50 h-[60px] border-b border-header-border bg-header md:h-20" data-site-header>
+  <div class="mx-auto h-full max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-full items-center justify-between gap-3">
+      <a href="/" class="flex min-h-11 items-center gap-2.5 rounded-sm">
+        <span
+          class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/60 text-base font-semibold text-primary sm:h-10 sm:w-10 sm:text-lg"
+          aria-hidden="true"
+        >
+          LB
+        </span>
+        <span class="flex flex-col justify-center">
+          <span class="whitespace-nowrap text-[16px] font-semibold leading-[1.4] tracking-[-0.01em] text-ink sm:text-lg">
+            Lahore Boutique
+          </span>
+          <span class="hidden text-[9px] font-medium uppercase leading-tight tracking-[0.14em] text-body sm:block">
+            {site.tagline}
+          </span>
+        </span>
+      </a>
+
+      <nav class="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
+        <a
+          href="#collection"
+          class="inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-medium text-body hover:text-primary"
+        >
+          Collection
+        </a>
+        <a
+          href="#how-to-order"
+          class="inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-medium text-body hover:text-primary"
+        >
+          How To Order
+        </a>
+        <a
+          href="#contact"
+          class="inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-medium text-body hover:text-primary"
+        >
+          Contact
+        </a>
+      </nav>
+
+      <a
+        href={orderUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="wa-button btn btn-accent min-h-11 gap-2 px-3 text-xs sm:px-4 sm:text-sm"
+        aria-label="Order on WhatsApp"
+      >
+        <WhatsAppIcon class="h-4 w-4 shrink-0" />
+        <span>WhatsApp</span>
+      </a>
+    </div>
+  </div>
+</header>

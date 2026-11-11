@@ -1,0 +1,80 @@
+---
+import '../styles/global.css';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Lahore Boutique | Wholesale Suits & Shawls in Lahore',
+  description = 'Wholesale suits, shawls and dupattas from Lahore Boutique in Allama Iqbal Town, Lahore. Ready stock, wholesale prices, and nationwide delivery. Order on WhatsApp.',
+} = Astro.props;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ClothingStore',
+  name: site.name,
+  slogan: site.tagline,
+  description:
+    'Wholesale suits and shawls based in Allama Iqbal Town, Lahore, with delivery across Pakistan.',
+  telephone: site.phoneDisplay,
+  email: site.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Allama Iqbal Town',
+    addressLocality: 'Lahore',
+    addressCountry: 'PK',
+  },
+  openingHours: 'Mo-Su 00:00-23:59',
+  areaServed: ['Lahore', 'Pakistan'],
+  priceRange: 'PKR 1,800 - 2,850',
+  image: '/images/hero.jpg',
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#FFF8F2" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" as="image" href="/images/hero.jpg" fetchpriority="high" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/images/hero.jpg" />
+    <meta property="og:image:alt" content="Lahore Boutique latest wholesale collection" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/images/hero.jpg" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        root.classList.add('js');
+
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          root.classList.add('motion-ready');
+        }
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen bg-cream font-sans text-body">
+    <a
+      href="#main-content"
+      class="sr-only inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100]"
+    >
+      Skip to content
+    </a>
+    <slot />
+  </body>
+</html>
