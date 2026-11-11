@@ -222,6 +222,22 @@ if (productGrid) {
     }
 
     if (emptyState) emptyState.hidden = matching.length !== 0;
+
+    if (matching.length === 0) {
+      // The empty-state WhatsApp button asks about what was actually searched for.
+      const emptyOrder = document.querySelector<HTMLAnchorElement>('[data-empty-order]');
+      const waNumber = emptyOrder?.dataset.waNumber;
+
+      if (emptyOrder && waNumber) {
+        const term = normalize(searchInput?.value ?? '');
+        const message = term
+          ? `Assalam-o-Alaikum, I could not find "${term}" in your latest collection. Do you have it in stock?`
+          : 'Assalam-o-Alaikum, I saw your collection, I want to order.';
+
+        emptyOrder.href = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+      }
+    }
+
     productGrid.hidden = matching.length === 0;
     if (loadMoreButton) loadMoreButton.hidden = shownCount >= matching.length;
     if (clearButton) {
@@ -369,12 +385,20 @@ const copyText = async (text: string) => {
 
 const shareTimers = new WeakMap<HTMLElement, number>();
 
+/* Share links always point at the production domain, never at a preview host. */
+const siteBaseUrl = document.body.dataset.siteUrl || window.location.origin;
+
 document.querySelectorAll<HTMLButtonElement>('[data-share-button]').forEach((button) => {
   button.addEventListener('click', async () => {
     const slug = button.dataset.shareSlug ?? '';
-    const shareUrl = new URL(`/#product-${slug}`, window.location.origin).toString();
+    const shareUrl = new URL(`/#product-${slug}`, siteBaseUrl).toString();
     const copied = await copyText(shareUrl);
     const status = button.parentElement?.querySelector<HTMLElement>('[data-share-status]');
+
+    // Keep the address bar in sync with the link that was just shared.
+    if (copied && slug) {
+      window.history.replaceState(null, '', `#product-${slug}`);
+    }
 
     if (!status) return;
 
@@ -404,32 +428,46 @@ if (lightbox) {
   const lightboxOrder = lightbox.querySelector<HTMLAnchorElement>('[data-lightbox-order]');
   const closeButton = lightbox.querySelector<HTMLButtonElement>('[data-lightbox-close]');
   let lastTrigger: HTMLElement | null = null;
+  let hashLocked = false;
 
   const closeLightbox = () => lightbox.close();
+
+  const openLightbox = (card: HTMLElement, trigger: HTMLElement | null) => {
+    const image = card.querySelector<HTMLImageElement>('[data-product-image]');
+    const name = card.querySelector<HTMLElement>('[data-product-name]');
+    const spec = card.querySelector<HTMLElement>('[data-product-spec]');
+    const price = card.querySelector<HTMLElement>('[data-product-price]');
+    const order = card.querySelector<HTMLAnchorElement>('[data-product-order]');
+
+    if (lightboxImage && image) {
+      lightboxImage.src = image.currentSrc || image.src;
+      lightboxImage.alt = image.alt;
+    }
+    if (lightboxName && name) lightboxName.textContent = name.textContent?.trim() ?? '';
+    if (lightboxSpec && spec) lightboxSpec.textContent = spec.textContent?.trim() ?? '';
+    if (lightboxPrice && price) lightboxPrice.textContent = price.textContent?.trim() ?? '';
+    if (lightboxOrder && order) lightboxOrder.href = order.href;
+
+    lastTrigger = trigger;
+    document.body.style.overflow = 'hidden';
+
+    if (!lightbox.open) lightbox.showModal();
+
+    // The open product is part of the URL, so the address bar is shareable.
+    const slug = card.id.replace(/^product-/, '');
+
+    if (slug && slug !== card.id) {
+      hashLocked = true;
+      window.history.replaceState(null, '', `#product-${slug}`);
+    }
+  };
 
   document.querySelectorAll<HTMLElement>('[data-lightbox-open]').forEach((trigger) => {
     trigger.addEventListener('click', () => {
       const card = trigger.closest<HTMLElement>('[data-product-card]');
       if (!card) return;
 
-      const image = card.querySelector<HTMLImageElement>('[data-product-image]');
-      const name = card.querySelector<HTMLElement>('[data-product-name]');
-      const spec = card.querySelector<HTMLElement>('[data-product-spec]');
-      const price = card.querySelector<HTMLElement>('[data-product-price]');
-      const order = card.querySelector<HTMLAnchorElement>('[data-product-order]');
-
-      if (lightboxImage && image) {
-        lightboxImage.src = image.currentSrc || image.src;
-        lightboxImage.alt = image.alt;
-      }
-      if (lightboxName && name) lightboxName.textContent = name.textContent?.trim() ?? '';
-      if (lightboxSpec && spec) lightboxSpec.textContent = spec.textContent?.trim() ?? '';
-      if (lightboxPrice && price) lightboxPrice.textContent = price.textContent?.trim() ?? '';
-      if (lightboxOrder && order) lightboxOrder.href = order.href;
-
-      lastTrigger = trigger;
-      document.body.style.overflow = 'hidden';
-      lightbox.showModal();
+      openLightbox(card, trigger);
     });
   });
 
@@ -441,6 +479,29 @@ if (lightbox) {
 
   lightbox.addEventListener('close', () => {
     document.body.style.overflow = '';
+
+    if (hashLocked) {
+      hashLocked = false;
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+
     lastTrigger?.focus({ preventScroll: true });
   });
+
+  /* Deep links: /#product-slug opens that product straight away. */
+  const openFromHash = () => {
+    const hash = window.location.hash;
+
+    if (!hash.startsWith('#product-')) return;
+    if (lightbox.open) return;
+
+    const card = document.getElementById(decodeURIComponent(hash.slice(1)));
+
+    if (!card || !card.matches('[data-product-card]')) return;
+
+    openLightbox(card, card.querySelector<HTMLElement>('[data-lightbox-open]'));
+  };
+
+  window.addEventListener('hashchange', openFromHash);
+  window.setTimeout(openFromHash, 150);
 }

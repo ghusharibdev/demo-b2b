@@ -1,6 +1,6 @@
 ---
 import { products } from '../data/products';
-import { whatsappUrl } from '../data/site';
+import { site, whatsappUrl } from '../data/site';
 import ProductCard from './ProductCard.astro';
 import WhatsAppIcon from './WhatsAppIcon.astro';
 
@@ -220,6 +220,9 @@ const orderUrl = whatsappUrl();
         target="_blank"
         rel="noopener noreferrer"
         class="wa-button btn btn-accent mt-5 gap-2"
+        data-empty-order
+        data-wa-number={site.whatsappNumber}
+        aria-label="Ask about this product on WhatsApp"
       >
         <WhatsAppIcon class="h-4 w-4" />
         Ask on WhatsApp
